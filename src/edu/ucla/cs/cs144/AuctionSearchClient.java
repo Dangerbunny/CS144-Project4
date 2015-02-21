@@ -17,7 +17,6 @@ public class AuctionSearchClient {
 	private static final String TARGET_NAMESPACE =
 		"http://cs144.cs.ucla.edu";
 	
-	@SuppressWarnings("unused")
 	public static SearchResult[] basicSearch(String query, int numResultsToSkip, 
 			int numResultsToReturn) {
 		try {
@@ -37,7 +36,6 @@ public class AuctionSearchClient {
 		return new SearchResult[0];
 	}
 	
-	@SuppressWarnings("unused")
 	public static SearchResult[] spatialSearch(String query, SearchRegion region, 
 			int numResultsToSkip, int numResultsToReturn) {
 		try {
@@ -57,7 +55,6 @@ public class AuctionSearchClient {
 		return new SearchResult[0];
 	}
 	
-	@SuppressWarnings("unused")
 	public static String getXMLDataForItemId(String itemId) {
 		try {
 			RPCServiceClient rpcClient = new RPCServiceClient();
@@ -75,7 +72,6 @@ public class AuctionSearchClient {
 		return null;
 	}
 	
-	@SuppressWarnings("unused")
 	public static String echo(String message) {
 		try {
 			RPCServiceClient rpcClient = new RPCServiceClient();
