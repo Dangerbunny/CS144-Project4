@@ -30,16 +30,16 @@ public class ItemServlet extends HttpServlet implements Servlet {
     public ItemServlet() {}
 
     public class Location{
-    	public double getLat() {
+    	public Double getLat() {
 			return lat;
 		}
-		public void setLat(double lat) {
+		public void setLat(Double lat) {
 			this.lat = lat;
 		}
-		public double getLon() {
+		public Double getLon() {
 			return lon;
 		}
-		public void setLon(double lon) {
+		public void setLon(Double lon) {
 			this.lon = lon;
 		}
 		public String getText() {
@@ -54,7 +54,7 @@ public class ItemServlet extends HttpServlet implements Servlet {
 		public void setCountry(String country) {
 			this.country = country;
 		}
-		double lat, lon;
+		Double lat, lon;
 		String text;
     	String country;
     	
@@ -69,6 +69,8 @@ public class ItemServlet extends HttpServlet implements Servlet {
 			super();
 			this.text = text;
 			this.country = country;
+			lat = null;
+			lon = null;
 		}
     }
     
@@ -309,10 +311,16 @@ public class ItemServlet extends HttpServlet implements Servlet {
         data.sortBids();
         
         Element itemLocElement = getElementByTagNameNR(root, "Location");
-        Location itemL = new Location(Double.parseDouble(itemLocElement.getAttribute("Latitude")), 
+        Location itemL = null;
+        try{
+        	itemL = new Location(Double.parseDouble(itemLocElement.getAttribute("Latitude")), 
         		Double.parseDouble(itemLocElement.getAttribute("Longitude")),
         		getElementText(itemLocElement),
         		getElementTextByTagNameNR(root, "Country"));
+        } catch (NumberFormatException nf){
+        	itemL = new Location(getElementText(itemLocElement),
+        		getElementTextByTagNameNR(root, "Country"));
+        }
         data.iLoc = itemL;
         try{
 	        data.startTime = inFormatter.parse(getElementTextByTagNameNR(root, "Started"));
