@@ -3,7 +3,6 @@ package edu.ucla.cs.cs144;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -33,8 +32,8 @@ public class ProxyServlet extends HttpServlet implements Servlet {
     	    finally {
     	     urlConnection.disconnect();
     	}
-    	PrintWriter writer = response.getWriter();
-    	
+    	request.setAttribute("data", theString);
+    	request.getRequestDispatcher("/temp.jsp").forward(request, response);
     }
     
     /**
