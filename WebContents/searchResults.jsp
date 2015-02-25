@@ -2,7 +2,6 @@
 <html>
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     <head>
-        <h1> Results </h1>
         <script type="text/javascript">
             function getQueryVariable(variable)
             {
@@ -18,20 +17,21 @@
                 }
                 return(false);
             }
-
-            window.onload = function()
+       </script>
+        <script type="text/javascript">
+            function initialize()
             {
                 var newStyle = "";
-                var prevURL = "http://localhost:1448/eBay/myServlet?q=";
-                var nextURL = "http://localhost:1448/eBay/myServlet?q=";
+                var prevURL = "search?q=";
+                var nextURL = "search?q=";
 
                 var qValue = getQueryVariable("q");
 
                 var skipValue = getQueryVariable("numResultsToSkip");
-                if(skipValue = 0)
+                if(skipValue == 0)
                     document.getElementById("previousLink").setAttribute("style","visibility:hidden;");
-                var prevSkipValue = skipValue-10;
-                var nextSkipValue = skipValue+10;
+                var prevSkipValue = parseInt(skipValue)-10;
+                var nextSkipValue = parseInt(skipValue)+10;
                 var retValue = getQueryVariable("numResultsToReturn");
 
                 prevURL = prevURL + qValue + "&numResultsToSkip=" + prevSkipValue + "&numResultsToReturn=" + retValue;
@@ -43,14 +43,15 @@
 
                 if(qValue != false)
                     document.getElementById("linksDiv").setAttribute("style","");
+                document.getElementById("test").innerHTML = document.getElementById("test").innerHTML+" "+qValue;
                 // if(skipValue==0)
                 //     newStyle = document.getElementById("previousLink").getAttribute("style");
                 //     newStyle += "visibility:hidden;"
                 //     document.getElementById("previousLink").setAttribute("style",newStyle);
-
+            }
         </script>
     </head>
-    <body>
+    <body onload="initialize()">
         <form action='search' method='GET'>
             <h3> Please enter a query to search for and click submit </h3>
             <input name='q' type='text'/>
@@ -59,18 +60,21 @@
             <input type='submit'/>
         </form>
         <hr/>
+        <h1> Results </h1>
         <h3> For query: ${q} </h3>
         <ol>
             <c:forEach items="${results}" var="res">
                 <li>
-                    <strong>Item: </strong>${res.name} <strong>ItemId: </strong>${res.itemId} <a style="background-color:#CCCCCC;width:75px;text-decoration:none;color:black;display:inline-block;padding:5px;text-align:center;" href='"http://localhost:1448/eBay/item?id="+${res.itemId}'>View Item</a>
+                    <strong>Item: </strong>${res.name} <strong>ItemId: </strong>${res.itemId} <a style="background-color:#CCCCCC;width:75px;text-decoration:none;color:black;display:inline-block;padding:5px;text-align:center;" href="item?id=${res.itemId}">View Item</a>
                 </li>
             </c:forEach>
         </ol> 
         <br/>
         <div id="linksDiv" style="visibility:hidden;">
             <a id="previousLink" style="background-color:#CCCCCC;width:75px;text-decoration:none;color:black;display:inline-block;padding:5px;text-align:center;" href="">Previous</a>
-            <a id="nextLink" style="background-color:#CCCCCC;width:75px;text-decoration:none;color:black;display:inline-block;padding:5px;text-align:center;" href="">Next</a>
+            <c:if test="${not empty results}">
+                <a id="nextLink" style="background-color:#CCCCCC;width:75px;text-decoration:none;color:black;display:inline-block;padding:5px;text-align:center;" href="">Next</a>
+            </c:if>
         </div>
     </body>
 </html>
