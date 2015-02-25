@@ -2,6 +2,30 @@
 <html>
     <head>
         <h1> Ebay Searcher </h1>
+        <script type="text/javascript">
+            var xmlHttp = new XMLHttpRequest(); 
+            // send Google suggest request based on the user input
+            function sendAjaxRequest(input)
+            {
+                var request = "suggest?q="+encodeURI(input);
+                xmlHttp.open("GET", request);
+                xmlHttp.onreadystatechange = showSuggestion;
+                xmlHttp.send(null);
+            }
+
+            // update Web page with the response from Google suggest
+            function showSuggestion() 
+            {
+                if (xmlHttp.readyState == 4) {
+                    response = xmlHttp.responseXML;
+                    //response = response.replace(/</g, "&lt;");
+                    //response = response.replace(/>/g, "&gt;");
+                    //document.getElementById("suggestion").innerHTML = response;
+
+                }
+            }
+
+        </script>
     </head>
     <body>
         <form action='search' method='GET'>
