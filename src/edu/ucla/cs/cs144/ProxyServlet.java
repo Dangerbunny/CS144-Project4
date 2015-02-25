@@ -23,14 +23,15 @@ public class ProxyServlet extends HttpServlet implements Servlet {
     {
     	String query = request.getParameter("q");
     	URL url = new URL("http://google.com/complete/search?output=toolbar&q="+query);
-    	HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+    	HttpURLConnection conn = (HttpURLConnection) url.openConnection();
     	String theString;
     	try {
-    	     InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-    	     theString = IOUtils.toString(in, Charset.defaultCharset().toString());
+    		conn.setRequestProperty("Accept", "application/json");
+    	    InputStream in = new BufferedInputStream(conn.getInputStream());
+    	    theString = IOUtils.toString(in, Charset.defaultCharset().toString());
     	}
-    	    finally {
-    	     urlConnection.disconnect();
+    	finally {
+    		conn.disconnect();
     	}
     	request.setAttribute("data", theString);
     	request.getRequestDispatcher("/temp.jsp").forward(request, response);
