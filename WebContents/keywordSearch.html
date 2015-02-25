@@ -26,6 +26,7 @@
             }
 
         </script>
+        <link rel="stylesheet" type="text/css" href="suggestion.css"> 
     </head>
     <body>
         <form action='search' method='GET'>
@@ -35,5 +36,8 @@
             <input name='numResultsToReturn' value='10' type="hidden"/>
             <input type='submit'/>
         </form>
+        <div class="suggestions" hidden>
+        </div>
+        <script src="suggestion.js"></script>
     </body>
 </html>

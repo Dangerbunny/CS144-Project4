@@ -26,7 +26,6 @@ public class ProxyServlet extends HttpServlet implements Servlet {
     	HttpURLConnection conn = (HttpURLConnection) url.openConnection();
     	String theString;
     	try {
-    		conn.setRequestProperty("Accept", "application/json");
     	    InputStream in = new BufferedInputStream(conn.getInputStream());
     	    theString = IOUtils.toString(in, Charset.defaultCharset().toString());
     	}
@@ -34,6 +33,7 @@ public class ProxyServlet extends HttpServlet implements Servlet {
     		conn.disconnect();
     	}
     	request.setAttribute("data", theString);
+    	response.setContentType("text/xml");
     	request.getRequestDispatcher("/temp.jsp").forward(request, response);
     }
     
