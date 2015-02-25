@@ -23,9 +23,9 @@ function AutoSuggestControl(oTextbox, oProvider) {
         }
     };
 
-    this.autosuggest = function (suggestList, showTypeAhead) {
+    this.autosuggest = function (suggestList, doTypeAhead) {
         if (suggestList.length > 0) {
-            if(showTypeAhead)
+            if(doTypeAhead)
                 this.typeAhead(suggestList[0]);
             this.showSuggestions(suggestList);
         } else
@@ -34,10 +34,12 @@ function AutoSuggestControl(oTextbox, oProvider) {
 
     this.handleKeyUp = function (oEvent) {
         var iKeyCode = oEvent.keyCode;
-        if (iKeyCode < 32 || (iKeyCode >= 33 && iKeyCode <= 46) || (iKeyCode >= 112 && iKeyCode <= 123)) {
+        if (iKeyCode == 8 || iKeyCode == 46) {
+            this.provider.requestSuggestions(this, false);
+        } else if (iKeyCode < 32 || (iKeyCode >= 33 && iKeyCode <= 46) || (iKeyCode >= 112 && iKeyCode <= 123)) {
             //ignore
         } else {
-            this.sProvider.getSuggestions(this);
+            this.provider.requestSuggestions(this, true);
         }
     };
 
@@ -132,31 +134,15 @@ AutoSuggestControl.prototype.init = function () {
 //--------------------------------------------------------------------------------------------------------
 
 function SuggestionProvider() {
-    //any initializations needed go here
+    this.suggestions = [];
 }
 
-SuggestionProvider.prototype.requestSuggestions = function (oAutoSuggestControl) {
-
-    var aSuggestions = new Array();
+SuggestionProvider.prototype.requestSuggestions = function (oAutoSuggestControl, doTypeAhead) {
 
     //determine suggestions for the control
-    oAutoSuggestControl.autosuggest(aSuggestions);
+    oAutoSuggestControl.autosuggest(this.suggestions, doTypeAhead);
 };
 
-//--------------------------------------------------------------------------------------------------------
-function StateSuggestions() {
-    this.states = [];
-}
-StateSuggestions.prototype.requestSuggestions = function (oAutoSuggestControl) {
-    var aSuggestions = [];
-    var sTextboxValue = oAutoSuggestControl.textbox.value;
-
-    if (sTextboxValue.length > 0){
-        for (var i=0; i < this.states.length; i++) { 
-            if (this.states[i].indexOf(sTextboxValue) == 0) {
-                aSuggestions.push(this.states[i]);
-            } 
-        } 
-        oAutoSuggestControl.autosuggest(aSuggestions);
-    } 
+SuggestionProvider.prototype.setSuggestions = function(sugg){
+    this.suggestions = sugg;
 };
