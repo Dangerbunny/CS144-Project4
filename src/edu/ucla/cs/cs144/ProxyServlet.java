@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.httpclient.util.URIUtil;
 import org.apache.commons.io.IOUtils;
 
 public class ProxyServlet extends HttpServlet implements Servlet {
@@ -22,7 +23,7 @@ public class ProxyServlet extends HttpServlet implements Servlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
     	String query = request.getParameter("q");
-    	URL url = new URL("http://google.com/complete/search?output=toolbar&q="+query);
+    	URL url = new URL(URIUtil.encodeQuery("http://google.com/complete/search?output=toolbar&q="+query));
     	HttpURLConnection conn = (HttpURLConnection) url.openConnection();
     	String theString;
     	try {

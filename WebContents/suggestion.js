@@ -8,22 +8,29 @@ function AutoSuggestControl(oTextbox) {
     this.sendAjaxRequest = function(xmlHttp, doTypeAhead)
     {
         var input = this.textbox.value;
-        var request = "suggest?q="+encodeURI(input);
-        xmlHttp.open("GET", request);
-        var asControl = this;
-        xmlHttp.onreadystatechange = function(){
-            if (xmlHttp.readyState == 4) {
-                var suggList = [];
-                var suggestions = xmlHttp.responseXML.getElementsByTagName('CompleteSuggestion');
-                for (i = 0; i < suggestions.length; i++) {
-                    var text = suggestions[i].childNodes[0].getAttribute("data");
-                    suggList.push(text);
+        if(input != ""){
+            var request = "suggest?q="+encodeURIComponent(input);
+            xmlHttp.open("GET", request);
+            var asControl = this;
+            xmlHttp.onreadystatechange = function(){
+                if (xmlHttp.readyState == 4) {
+                    var suggList = [];
+                    var suggestionsXML = xmlHttp.responseXML;
+                    if(suggestionsXML != null){
+                        var suggestions = suggestionsXML.getElementsByTagName('CompleteSuggestion');
+                        for (i = 0; i < suggestions.length; i++) {
+                            var text = suggestions[i].childNodes[0].getAttribute("data");
+                            suggList.push(text);
+                        }
+                        asControl.autosuggest(suggList, doTypeAhead);
+                    }
                 }
-                asControl.autosuggest(suggList, doTypeAhead);
-            }
-        };
-/*        xmlHttp.onreadystatechange = parseSuggestions(xmlHttp, doTypeAhead);*/
-        xmlHttp.send(null);
+            };
+    /*        xmlHttp.onreadystatechange = parseSuggestions(xmlHttp, doTypeAhead);*/
+            xmlHttp.send(null);
+        } else{
+            this.hideSuggestions();
+        }
     }
 
     
@@ -41,7 +48,7 @@ function AutoSuggestControl(oTextbox) {
     }
 
 
-    this.selectRange = function (iStart, iLength) {
+    /*this.selectRange = function (iStart, iLength) {
         if (this.textbox.createTextRange) {
             var oRange = this.textbox.createTextRange(); 
             oRange.moveStart("character", iStart); 
@@ -60,14 +67,13 @@ function AutoSuggestControl(oTextbox) {
             this.selectRange(iLen, sSuggestion.length);
         }
     }
-
+*/
     this.autosuggest = function (suggestList, doTypeAhead) {
         if (suggestList.length > 0) {
-            if(doTypeAhead)
-                this.typeAhead(suggestList[0]);
+           /* if(doTypeAhead)
+                this.typeAhead(suggestList[0]);*/
             this.showSuggestions(suggestList);
-        } else
-            this.hideSuggestions();
+        }
     }
 
     this.hideSuggestions = function () {
