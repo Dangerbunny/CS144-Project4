@@ -32,9 +32,10 @@ public class ProxyServlet extends HttpServlet implements Servlet {
     	finally {
     		conn.disconnect();
     	}
-    	request.setAttribute("data", theString);
+//    	request.setAttribute("data", theString);
+    	response.setCharacterEncoding("UTF-8"); 
     	response.setContentType("text/xml");
-    	request.getRequestDispatcher("/temp.jsp").forward(request, response);
+    	response.getWriter().write(theString);
     }
     
     /**

@@ -1,34 +1,10 @@
 <!DOCTYPE html> 
 <html>
     <head>
-        <h1> Ebay Searcher </h1>
-        <script type="text/javascript">
-            var xmlHttp = new XMLHttpRequest(); 
-            // send Google suggest request based on the user input
-            function sendAjaxRequest(input)
-            {
-                var request = "suggest?q="+encodeURI(input);
-                xmlHttp.open("GET", request);
-                xmlHttp.onreadystatechange = showSuggestion;
-                xmlHttp.send(null);
-            }
-
-            // update Web page with the response from Google suggest
-            function showSuggestion() 
-            {
-                if (xmlHttp.readyState == 4) {
-                    response = xmlHttp.responseXML;
-                    //response = response.replace(/</g, "&lt;");
-                    //response = response.replace(/>/g, "&gt;");
-                    //document.getElementById("suggestion").innerHTML = response;
-
-                }
-            }
-
-        </script>
         <link rel="stylesheet" type="text/css" href="suggestion.css"> 
     </head>
     <body>
+        <h1> Ebay Searcher </h1>
         <form action='search' method='GET'>
             <h3> Please enter a query to search for and click submit </h3>
             <input name='q' type='text' id="searchBox"/>
@@ -36,16 +12,15 @@
             <input name='numResultsToReturn' value='10' type="hidden"/>
             <input type='submit'/>
         </form>
-        <div class="suggestions" hidden>
-        </div>
         <script src="suggestion.js"></script>
         <script type="text/javascript">
             window.onload = function(){
                 var textBox = new AutoSuggestControl(
-                        document.getElementById("searchBox"),
-                        new SuggestionProvider()
+                        document.getElementById("searchBox")
                     );
             }
+
+            
         </script>
     </body>
 </html>
