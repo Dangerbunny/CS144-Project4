@@ -50,11 +50,12 @@
                 //     document.getElementById("previousLink").setAttribute("style",newStyle);
             }
         </script>
+        <link rel="stylesheet" type="text/css" href="suggestion.css"> 
     </head>
     <body onload="initialize()">
         <form action='search' method='GET'>
             <h3> Please enter a query to search for and click submit </h3>
-            <input name='q' type='text'/>
+            <input name='q' type='text' id="searchBox"/>
             <input name='numResultsToSkip' value='0' type="hidden"/>
             <input name='numResultsToReturn' value='10' type="hidden"/>
             <input type='submit'/>
@@ -77,5 +78,12 @@
             </c:if>
         </div>
         <script src="suggestion.js"></script>
+        <script type="text/javascript">
+            window.onload = function(){
+                var textBox = new AutoSuggestControl(
+                        document.getElementById("searchBox")
+                    );
+            }
+        </script>
     </body>
 </html>
