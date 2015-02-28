@@ -127,6 +127,7 @@ function AutoSuggestControl(oTextbox) {
         this.layer.style.left = this.getLeft() + "px";
         this.layer.style.top = (this.getTop()+this.textbox.offsetHeight) + "px";
         this.layer.style.visibility = "visible";
+        this.layer.style.background = "white";
     }
 }
 
