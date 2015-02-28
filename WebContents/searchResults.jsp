@@ -76,5 +76,6 @@
                 <a id="nextLink" style="background-color:#CCCCCC;width:75px;text-decoration:none;color:black;display:inline-block;padding:5px;text-align:center;" href="">Next</a>
             </c:if>
         </div>
+        <script src="suggestion.js"></script>
     </body>
 </html>
