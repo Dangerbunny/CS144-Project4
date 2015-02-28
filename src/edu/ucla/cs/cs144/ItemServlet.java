@@ -262,6 +262,10 @@ public class ItemServlet extends HttpServlet implements Servlet {
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
+    	if(request.getParameter("id") == "" || !(request.getParameter("id").matches("[0-9]+"))){
+    		request.getRequestDispatcher("/itemData.jsp").forward(request, response);
+    		return;
+    	}
         String xmlData = AuctionSearchClient.getXMLDataForItemId(request.getParameter("id"));
         if(xmlData.length() == 0){
         	request.getRequestDispatcher("/itemData.jsp").forward(request, response);
