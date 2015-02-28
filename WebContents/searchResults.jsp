@@ -52,7 +52,7 @@
         </script>
         <link rel="stylesheet" type="text/css" href="suggestion.css"> 
     </head>
-    <body onload="initialize()">
+    <body>
         <form action='search' method='GET'>
             <h3> Please enter a query to search for and click submit </h3>
             <input name='q' type='text' id="searchBox"/>
@@ -83,6 +83,7 @@
                 var textBox = new AutoSuggestControl(
                         document.getElementById("searchBox")
                     );
+                initialize();
             }
         </script>
     </body>
